@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Login } from '../interfaces/login';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +14,8 @@ export class MasterService {
     private http: HttpClient
   ) { }
 
-  login(obj: any) {
-    
-    return this.http.post(this.apiURL + 'Login', obj);
+  login(obj: Login): Observable<any> {
+    return this.http.post<any>(`${this.apiURL}Login`, obj);
   }
 
 }
