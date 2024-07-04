@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MasterService } from 'src/app/services/master.service';
 import { Login } from '../../interfaces/login';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
     private masterService: MasterService,
     private router: Router,
     private fb: FormBuilder,
+    private toastr: ToastrService
   ) {
     this.loginForm = this.fb.group({
       emailId: ['', [Validators.required, Validators.email]],
@@ -34,13 +36,18 @@ export class LoginComponent implements OnInit {
         console.log('response', res);
         if (res.result) {
           localStorage.setItem('ticketUser', JSON.stringify(res.data));
+          this.toastr.success('Inicio de sesión exitoso!', 'Éxito');
           this.router.navigateByUrl('dashboard');
         } else {
-          alert(res.message);
+          // alert(res.message);
+          this.toastr.error(res.message, 'Error');
         }
+      }, (error) => {
+        this.toastr.error('Ocurrió un error al intentar iniciar sesión', 'Error');
       });
     } else {
-      alert('Por favor, completa el formulario correctamente.')
+      // alert('Por favor, completa el formulario correctamente.')
+      this.toastr.warning('Por favor, completa el formulario correctamente.', 'Advertencia');
     }
   }
 
