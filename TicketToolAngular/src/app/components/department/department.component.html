@@ -1,1 +1,60 @@
-<p>department works!</p>
+<div class="container">
+    <div class="row pt-5">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header text-center fw-bold fs-5">Department List</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Dept No</th>
+                                        <th scope="col">deptId</th>
+                                        <th scope="col">Department Name</th>
+                                        <th scope="col">Created Date</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let department of departmentList; let i = index">
+                                        <tr>
+                                            <td>{{i + 1}}</td>
+                                            <td>{{department.deptId}}</td>
+                                            <td>{{department.deptName}}</td>
+                                            <td>{{department.createdDate | date: 'dd-MMM-yyyy'}}</td>
+                                            <td></td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header text-center fw-bold fs-5">New Department</div>
+                <form class="card-body" [formGroup]="newDeptForm" (ngSubmit)="saveDepartment()">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="deptName">Department Name</label>
+                            <input type="text" formControlName="deptName" id="deptName" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="createdDate">Date of Creation</label>
+                            <input type="date" formControlName="createdDate" id="createdDate" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 d-flex justify-content-end align-items-center w-100 mt-3">
+                            <button type="submit" class="btn btn-sm btn-outline-primary fw-bold me-3">Save Department</button>
+                            <button class="btn btn-sm btn-outline-danger fw-bold">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
