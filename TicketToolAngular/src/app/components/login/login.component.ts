@@ -39,14 +39,12 @@ export class LoginComponent implements OnInit {
           this.toastr.success('Inicio de sesión exitoso!', 'Éxito');
           this.router.navigateByUrl('dashboard');
         } else {
-          // alert(res.message);
           this.toastr.error(res.message, 'Error');
         }
       }, (error) => {
         this.toastr.error('Ocurrió un error al intentar iniciar sesión', 'Error');
       });
     } else {
-      // alert('Por favor, completa el formulario correctamente.')
       this.toastr.warning('Por favor, completa el formulario correctamente.', 'Advertencia');
     }
   }
