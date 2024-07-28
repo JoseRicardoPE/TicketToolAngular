@@ -1,6 +1,36 @@
 <div class="container">
     <div class="row pt-5">
-        <div class="col-8">
+        <div class="col-12 mb-5 col-lg-4">
+            <div class="card">
+                <div class="card-header text-center fw-bold fs-5">New Department</div>
+                <form class="card-body" [formGroup]="newDeptForm" (ngSubmit)="saveDepartment()">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="deptName">Department Name</label>
+                            <input type="text" formControlName="deptName" id="deptName" class="form-control" required>
+                        </div>
+                        <ng-container *ngIf="newDeptForm.get('deptId')?.value === 0">
+                            <div class="col-12">
+                                <label for="createdDate">Date of Creation</label>
+                                <input type="date" formControlName="createdDate" id="createdDate" class="form-control">
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 d-flex justify-content-end align-items-center w-100 mt-3">
+                            <button class="btn btn-sm btn-outline-danger fw-bold me-2" (click)="resetForm()">Reset</button>
+                            <ng-container *ngIf="newDeptForm.get('deptId')?.value === 0; else updateDept">
+                                <button type="submit" class="btn btn-sm btn-outline-primary fw-bold me-3" (click)="saveDepartment()">Save Department</button>
+                            </ng-container>
+                            <ng-template #updateDept>
+                                <button type="submit" class="btn btn-sm btn-outline-warning fw-bold me-3" (click)="updateDepartment()">Update Department</button>
+                            </ng-template>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-12 col-lg-8">
             <div class="card">
                 <div class="card-header text-center fw-bold fs-5">Department List</div>
                 <div class="card-body">
@@ -8,7 +38,7 @@
                         <div class="col-12">
                             <div class="table table-bordered table-striped table-hover">
                                 <thead>
-                                    <tr>
+                                    <tr class="text-center">
                                         <th scope="col">Dept No</th>
                                         <th scope="col">deptId</th>
                                         <th scope="col">Department Name</th>
@@ -19,11 +49,14 @@
                                 <tbody>
                                     <ng-container *ngFor="let department of departmentList; let i = index">
                                         <tr>
-                                            <td>{{i + 1}}</td>
+                                            <td class="w-25">{{i + 1}}</td>
                                             <td>{{department.deptId}}</td>
-                                            <td>{{department.deptName}}</td>
-                                            <td>{{department.createdDate | date: 'dd-MMM-yyyy'}}</td>
-                                            <td></td>
+                                            <td class="w-50">{{department.deptName}}</td>
+                                            <td class="w-25">{{department.createdDate | date: 'dd-MMM-yyyy'}}</td>
+                                            <td class="px-4 d-lg-flex">
+                                                <button class="btn btn-primary me-lg-2" (click)="onEdit(department)">Edit</button>
+                                                <button class="btn btn-danger" (click)="deleteDepartment(department.deptId)">Delete</button>
+                                            </td>
                                         </tr>
                                     </ng-container>
                                 </tbody>
@@ -31,29 +64,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="card">
-                <div class="card-header text-center fw-bold fs-5">New Department</div>
-                <form class="card-body" [formGroup]="newDeptForm" (ngSubmit)="saveDepartment()">
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="deptName">Department Name</label>
-                            <input type="text" formControlName="deptName" id="deptName" class="form-control" required>
-                        </div>
-                        <div class="col-12">
-                            <label for="createdDate">Date of Creation</label>
-                            <input type="date" formControlName="createdDate" id="createdDate" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 d-flex justify-content-end align-items-center w-100 mt-3">
-                            <button type="submit" class="btn btn-sm btn-outline-primary fw-bold me-3">Save Department</button>
-                            <button class="btn btn-sm btn-outline-danger fw-bold">Reset</button>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
