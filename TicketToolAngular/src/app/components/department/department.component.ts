@@ -76,10 +76,11 @@ export class DepartmentComponent implements OnInit {
 
   onEdit(data: DeptObj) {
     console.log('Data onEdit', data);
+    const formatedDate = new Date(data.createdDate).toISOString().split('T')[0]; //
     this.newDeptForm.patchValue({
       deptId: data.deptId,
       deptName: data.deptName,
-      createdDate: data.createdDate,
+      createdDate: formatedDate,
     });
   }
 
