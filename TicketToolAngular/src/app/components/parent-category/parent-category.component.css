@@ -1,0 +1,21 @@
+.btn-dropdown {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    color: #1b1b1b;
+    border-color: #dee2e6;
+}
+.btn-dropdown:hover {
+    background-color: transparent;
+    color: inherit;
+}
+.dropdown-menu {
+    height: 12.5rem;
+    overflow: hidden;
+    overflow-y: auto;
+}
+.dropdown-item {
+    cursor: pointer;
+}
