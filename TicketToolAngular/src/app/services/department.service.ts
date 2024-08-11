@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MasterService {
+export class DepartmentService {
 
   apiURL: string = 'https://freeapi.miniprojectideas.com/api/TicketsNew/';
 
