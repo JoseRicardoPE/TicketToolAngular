@@ -1,1 +1,86 @@
-<p>child-category works!</p>
+<div class="container">
+    <div class="row pt-5">
+        <div class="col-12 mb-5 col-lg-4">
+            <div class="card">
+                <ng-container *ngIf="childCategoryForm.get('childCategoryId')?.value === 0; else updateTitle">
+                    <div class="card-header text-center fw-bold fs-5">
+                        <h2>New Child Category</h2>
+                    </div>
+                </ng-container>
+                <ng-template #updateTitle>
+                    <div class="card-header text-center fw-bold fs-5">
+                        <h2>Update Child Category</h2>
+                    </div>
+                </ng-template>
+                <form class="card-body" [formGroup]="childCategoryForm" (ngSubmit)="saveChildCategory()">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="categoryName">Child Category Name</label>
+                            <input type="text" formControlName="categoryName" id="categoryName" class="form-control" required>
+                        </div>
+                        <div class="dropdown col-12 mt-3">
+                            <label for="categoryName">Category Name</label>
+                            <button class="btn-dropdown btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ selectedCategoryName || 'Category' }}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <ng-container *ngFor="let category of categoryList">
+                                    <li>
+                                        <a class="dropdown-item" (click)="selectCategory(category)">{{category.categoryName}}</a>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 d-flex justify-content-end align-items-center w-100 mt-3">
+                            <button class="btn btn-sm btn-outline-danger fw-bold me-2" (click)="resetChildCategoryForm()">Reset</button>
+                            <ng-container *ngIf="childCategoryForm.get('childCategoryId')?.value === 0; else updateCategory">
+                                <button type="submit" class="btn btn-sm btn-outline-primary fw-bold me-3" (click)="saveChildCategory()">Save Category</button>
+                            </ng-container>
+                            <ng-template #updateCategory>
+                                <button type="submit" class="btn btn-sm btn-outline-warning fw-bold me-3" (click)="updateChildCategory()">Update Category</button>
+                            </ng-template>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-header text-center fw-bold fs-5">
+                    <h2>Child Category</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th scope="col">Child Category No</th>
+                                        <th scope="col">Child CategoryId</th>
+                                        <th scope="col">Child Category Name</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let childCategory of childCategoryList; let i = index">
+                                        <tr>
+                                            <td class="w-25">{{i + 1}}</td>
+                                            <td>{{childCategory.childCategoryId}}</td>
+                                            <td class="w-50">{{childCategory.categoryName}}</td>
+                                            <td class="px-4 d-lg-flex">
+                                                <button class="btn btn-primary me-lg-2" (click)="onEdit(childCategory)">Edit</button>
+                                                <button class="btn btn-danger" (click)="deleteChildCategory(childCategory.childCategoryId)">Delete</button>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
