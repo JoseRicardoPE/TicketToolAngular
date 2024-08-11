@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MasterService } from 'src/app/services/master.service';
+import { DepartmentService } from 'src/app/services/department.service';
 import { Login } from '../../interfaces/login';
 import { ToastrService } from 'ngx-toastr';
 
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
   constructor(
-    private masterService: MasterService,
+    private departmentService: DepartmentService,
     private router: Router,
     private fb: FormBuilder,
     private toastr: ToastrService
@@ -32,20 +32,20 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const loginData: Login = this.loginForm.value;
       console.log('login data', loginData);
-      this.masterService.login(loginData).subscribe( (res: any) => {
+      this.departmentService.login(loginData).subscribe( (res: any) => {
         console.log('response', res);
         if (res.result) {
           localStorage.setItem('ticketUser', JSON.stringify(res.data));
-          this.toastr.success('Inicio de sesión exitoso!', 'Éxito');
+          this.toastr.success('Login successful!', 'Success');
           this.router.navigateByUrl('dashboard');
         } else {
           this.toastr.error(res.message, 'Error');
         }
       }, (error) => {
-        this.toastr.error('Ocurrió un error al intentar iniciar sesión', 'Error');
+        this.toastr.error('An error occurred while trying to log in', 'Error');
       });
     } else {
-      this.toastr.warning('Por favor, completa el formulario correctamente.', 'Advertencia');
+      this.toastr.warning('Please complete the form correctly.', 'Warning');
     }
   }
 

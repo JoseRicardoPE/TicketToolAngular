@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MasterService } from 'src/app/services/master.service';
+import { DepartmentService } from 'src/app/services/department.service';
 import { DeptObj } from '../../interfaces/new-dept-obj';
 import { ToastrService } from 'ngx-toastr';
 
@@ -16,7 +16,7 @@ export class DepartmentComponent implements OnInit {
   isResetting: boolean = false;
 
   constructor(
-    private masterService: MasterService,
+    private DepartmentService: DepartmentService,
     private fb: FormBuilder,
     private toastr: ToastrService,
   ) { 
@@ -47,7 +47,7 @@ export class DepartmentComponent implements OnInit {
   }
 
   getAllDepartments() {
-    this.masterService.getAllDepartments().subscribe((res: any) => {
+    this.DepartmentService.getAllDepartments().subscribe((res: any) => {
       // debugger;
       this.departmentList = res.data;
       console.log(this.departmentList);
@@ -60,7 +60,7 @@ export class DepartmentComponent implements OnInit {
     if (this.newDeptForm.valid) {
       // debugger;
       const newDept: DeptObj = this.newDeptForm.value;
-      this.masterService.createDepartment(newDept).subscribe((res: any) => {
+      this.DepartmentService.createDepartment(newDept).subscribe((res: any) => {
         // debugger;
         if (res.result) {
           this.toastr.success('Dept created successfully!', 'Created');
@@ -70,7 +70,7 @@ export class DepartmentComponent implements OnInit {
         }
       });
     } else {
-      this.toastr.warning('Por favor, completa el formulario correctamente.', 'Advertencia');
+      this.toastr.warning('Please complete the form correctly.', 'Warning');
     }
   }
 
@@ -88,7 +88,7 @@ export class DepartmentComponent implements OnInit {
     if (this.newDeptForm.valid) {
       // debugger;
       const newDept: DeptObj = this.newDeptForm.value;
-      this.masterService.updateDepartment(newDept).subscribe((res: any) => {
+      this.DepartmentService.updateDepartment(newDept).subscribe((res: any) => {
         // debugger;
         if (res.result) {
           this.toastr.success('Dept updated successfully!', 'updated');
@@ -98,14 +98,14 @@ export class DepartmentComponent implements OnInit {
         }
       });
     } else {
-      this.toastr.warning('Por favor, completa el formulario correctamente.', 'Advertencia');
+      this.toastr.warning('Please complete the form correctly.', 'Warning');
     }
   }
 
   deleteDepartment(id: number) {
     const isDeleted = confirm('Are you sure you want to delete');
     if (isDeleted) {
-      this.masterService.deleteDepartment(id).subscribe((res: any) => {
+      this.DepartmentService.deleteDepartment(id).subscribe((res: any) => {
         if (res.result) {
           this.toastr.success('Dept deleted successfully!', 'Success');
           this.getAllDepartments();
