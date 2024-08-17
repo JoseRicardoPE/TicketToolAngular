@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row pt-5">
         <div class="col-12 mb-5 col-lg-4">
-            <div class="card">
+            <div class="card card--left">
                 <ng-container *ngIf="childCategoryForm.get('childCategoryId')?.value === 0; else updateTitle">
                     <div class="card-header text-center fw-bold fs-5">
                         <h2>New Child Category</h2>
@@ -24,7 +24,7 @@
                                 {{ selectedCategoryName || 'Category' }}
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <ng-container *ngFor="let category of categoryList">
+                                <ng-container *ngFor="let category of parentCategoryList">
                                     <li>
                                         <a class="dropdown-item" (click)="selectCategory(category)">{{category.categoryName}}</a>
                                     </li>
@@ -53,25 +53,25 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12">
+                          <div class="col-12">
                             <div class="table table-bordered table-striped table-hover">
                                 <thead>
                                     <tr class="text-center">
                                         <th scope="col">Child Category No</th>
-                                        <th scope="col">Child CategoryId</th>
+                                        <th scope="col">Parent Category Name</th>
                                         <th scope="col">Child Category Name</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <ng-container *ngFor="let childCategory of childCategoryList; let i = index">
+                                    <ng-container *ngFor="let category of getChildCategoryObj; let i = index">
                                         <tr>
                                             <td class="w-25">{{i + 1}}</td>
-                                            <td>{{childCategory.childCategoryId}}</td>
-                                            <td class="w-50">{{childCategory.categoryName}}</td>
+                                            <td class="w-25">{{category.parentCategoryName}}</td>
+                                            <td class="w-50">{{category.categoryName}}</td>
                                             <td class="px-4 d-lg-flex">
-                                                <button class="btn btn-primary me-lg-2" (click)="onEdit(childCategory)">Edit</button>
-                                                <button class="btn btn-danger" (click)="deleteChildCategory(childCategory.childCategoryId)">Delete</button>
+                                                <button class="btn btn-primary me-lg-2" (click)="onEdit(category)">Edit</button>
+                                                <button class="btn btn-danger" (click)="deleteChildCategory(category.childCategoryId)">Delete</button>
                                             </td>
                                         </tr>
                                     </ng-container>

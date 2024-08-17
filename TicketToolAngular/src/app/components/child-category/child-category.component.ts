@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryObj } from 'src/app/interfaces/categoryObj';
-import { ChildCategoryObj } from 'src/app/interfaces/child-category-obj';
-import { DeptObj } from 'src/app/interfaces/new-dept-obj';
+import { ChildCategoryObj, getChildCategoryObj } from 'src/app/interfaces/child-category-obj';
 import { CategoryService } from 'src/app/services/category.service';
 import { ChildcategoryService } from 'src/app/services/childcategory.service';
-import { DepartmentService } from 'src/app/services/department.service';
 
 @Component({
   selector: 'app-child-category',
@@ -16,54 +14,52 @@ import { DepartmentService } from 'src/app/services/department.service';
 export class ChildCategoryComponent implements OnInit {
 
   childCategoryForm!: FormGroup;
-  categoryList: CategoryObj[] = [];
-  departmentList: DeptObj[] = [];
-  childCategoryList: ChildCategoryObj[] = [];
+  parentCategoryList: CategoryObj[] = [];
+  getChildCategoryObj: getChildCategoryObj[] = [];
+  childCategoryObj: ChildCategoryObj[] = [];
   isResetting: boolean = false;
   selectedCategoryName: string = '';
 
   constructor(
-    private DepartmentService: DepartmentService,
     private categoryService: CategoryService,
     private childCategoryService: ChildcategoryService,
     private fb: FormBuilder,
     private toastr: ToastrService,
   ) { 
     this.childCategoryForm = this.fb.group({
+      childCategoryId: [0],
       categoryName: ['', [Validators.required]],
-      parentCategoryName: ['', [Validators.required]],
-      childCategoryId: [0]
+      parentCategoryId: [0],
     });
   }
 
   ngOnInit(): void {
     this.getAllChildCategories();
-    this.getAllCategories();
+    this.getAllParentCategories();
   }
 
-  getAllCategories() {
+  getAllParentCategories() {
     this.categoryService.getAllParentCategory().subscribe((res: any) => {
       // debugger;
-      this.categoryList = res.data;
-      console.log(this.categoryList);
+      this.parentCategoryList = res.data;
+      console.log('Parent Categories', this.parentCategoryList);
     })
   }
 
   getAllChildCategories() {
     this.childCategoryService.getAllChildCategory().subscribe((res: any) => {
       // debugger;
-      this.childCategoryList = res.data;
-      console.log(this.childCategoryList);
-    })
+      this.getChildCategoryObj = res.data;
+    });
   }
 
   resetChildCategoryForm() {
     // debugger;
     this.isResetting = true;  //? indicate that the form is being reset.
     this.childCategoryForm.reset({
-      categoryName: '',
-      parentCategoryName: '',
       childCategoryId: 0,
+      categoryName: '',
+      parentCategoryId: 0,
     });
 
     //? to ensure that isResetting returns false after the reset is complete
@@ -76,10 +72,11 @@ export class ChildCategoryComponent implements OnInit {
     if (this.isResetting) return; //? exit if the form is being reset
 
     if (this.childCategoryForm.valid) {
-      // debugger;
+      console.log('childCategoryForm.value', this.childCategoryForm.value);
+      debugger;
       const newChildCategory: ChildCategoryObj = this.childCategoryForm.value;
       this.childCategoryService.createChildCategory(newChildCategory).subscribe((res: any) => {
-        // debugger;
+        debugger;
         if (res.result) {
           this.toastr.success('Child Category created successfully!', 'Created');
           this.getAllChildCategories(); //? To call and refresh table categories
@@ -92,7 +89,7 @@ export class ChildCategoryComponent implements OnInit {
     }
   }
 
-  onEdit(data: ChildCategoryObj) {
+  onEdit(data: getChildCategoryObj) {
     console.log('Data onEdit', data);
     // const formatedDate = new Date(data.createdDate).toISOString().split('T')[0]; 
     this.childCategoryForm.patchValue({
@@ -135,7 +132,7 @@ export class ChildCategoryComponent implements OnInit {
   }
 
   selectCategory(category: CategoryObj) {
-    this.childCategoryForm.patchValue({ categoryId: category.categoryId });
+    this.childCategoryForm.patchValue({ parentCategoryId: category.categoryId });
     this.selectedCategoryName = category.categoryName;
   }
 
