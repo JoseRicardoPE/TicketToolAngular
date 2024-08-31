@@ -1,1 +1,123 @@
-<p>employee works!</p>
+<div class="container">
+    <ng-container *ngIf="!isNewEmployee; else newEmployeeTemplate">
+        <div class="col-12">
+            <div class="card my-3">
+                <div class="card-header">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-8">
+                            <h2>Employee List</h2>
+                        </div>
+                        <div class="col-4 d-flex justify-content-end">
+                            <button class="btn btn-warning fw-bold" (click)="isNewEmployee = !isNewEmployee">Add New Employee</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col">Employee No</th>
+                                <th scope="col">Employee Name</th>
+                                <th scope="col">Employee Department</th>
+                                <th scope="col">Employee Contact No</th>
+                                <th scope="col">Employee Email</th>
+                                <th scope="col">Employee Role</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let employee of employeeList; let i = index">
+                                <tr>
+                                    <td class="">{{i + 1}}</td>
+                                    <td class="w-25">{{employee.employeeName}}</td>
+                                    <td class="">{{employee.deptName}}</td>
+                                    <td class="">{{employee.contactNo}}</td>
+                                    <td class="">{{employee.emailId}}</td>
+                                    <td class="">{{employee.role}}</td>
+                                    <td class="px-4 d-lg-flex">
+                                        <button class="btn btn-primary me-lg-2">Edit</button>
+                                        <button class="btn btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #newEmployeeTemplate>
+        <div class="col-12">
+            <div class="card my-3">
+                <div class="card-header">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-8">
+                            <h2>New Employee</h2>
+                        </div>
+                        <div class="col-4 d-flex justify-content-end">
+                            <button class="btn btn-warning fw-bold" (click)="isNewEmployee = !isNewEmployee">Go to List</button>
+                        </div>
+                    </div>
+                </div>
+                <form class="card-body" [formGroup]="employeeForm" (ngSubmit)="saveEmployee()">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <input type="text" class="form-control" placeholder="Employee Name" aria-label="Employee Name" formControlName="employeeName">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <select class="form-select" aria-label="Default select example" formControlName="gender">
+                                <option value="">Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <input type="password" class="form-control" placeholder="Password" aria-label="Password" formControlName="password">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <input type="text" class="form-control" placeholder="Contact No" aria-label="Contact No" formControlName="contactNo">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <input type="email" class="form-control" placeholder="Email" aria-label="Email" formControlName="emailId">
+                        </div>
+                        <div class="dropdown col-6 mb-3">
+                            <button class="btn-dropdown btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonDepartment" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ selectedDepartmentName || 'Department' }}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <ng-container *ngFor="let department of departmentList">
+                                    <li>
+                                        <a class="dropdown-item" (click)="selectCategory(department)">{{department.deptName}}</a>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </div>
+                        <div class="dropdown col-6 mb-3">
+                            <button class="btn-dropdown btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonRole" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ selectedRoleName || 'Role' }}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonRole">
+                                <ng-container *ngFor="let role of roleList">
+                                    <li>
+                                        <a class="dropdown-item" (click)="selectRole(role)">{{role}}</a>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </div>
+                    </div>
+                   <div class="col-6 d-flex justify-content-end align-items-center w-100">
+                        <button class="btn btn-sm btn-outline-danger fw-bold me-2" (click)="resetForm()">Reset</button>
+                        <ng-container *ngIf="employeeForm.get('employeeId')?.value === 0; else updateEmployee">
+                            <button type="submit" class="btn btn-sm btn-outline-primary fw-bold me-3" (click)="saveEmployee()">Save Employee</button>
+                        </ng-container>
+                        <ng-template -template #updateEmployee>
+                            <button type="submit" class="btn btn-sm btn-outline-warning fw-bold me-3">Update Employee</button>
+                        </ng-template>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+</div>
