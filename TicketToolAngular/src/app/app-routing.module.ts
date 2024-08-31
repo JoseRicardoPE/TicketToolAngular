@@ -6,6 +6,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { ParentCategoryComponent } from './components/parent-category/parent-category.component';
 import { ChildCategoryComponent } from './components/child-category/child-category.component';
+import { EmployeeComponent } from './components/employee/employee.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
       { path: 'department', component: DepartmentComponent },
       { path: 'parent-category', component: ParentCategoryComponent },
       { path: 'child-category', component: ChildCategoryComponent },
+      { path: 'employee', component: EmployeeComponent },
     ]
   }
 ];
