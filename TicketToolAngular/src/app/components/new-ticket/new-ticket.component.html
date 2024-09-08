@@ -1,1 +1,40 @@
-<p>new-ticket works!</p>
+<div class="container">
+    <div class="row pt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header fw-bold fs-2 text-center">New Ticket</div>
+                <form class="card-body" [formGroup]="formCreateTicket">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="dropdown col-6 mb-3">
+                                <button class="btn-dropdown btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonDepartment" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ selectSeverity || 'Department' }}
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <ng-container *ngFor="let severity of severityList">
+                                        <li>
+                                            <a class="dropdown-item" (click)="selectSeverityList(severity)">{{severity.severity}}</a>
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                            </div>
+                            <div class="dropdown col-12 mt-3">
+                                <label for="categoryName">Category Name</label>
+                                <button class="btn-dropdown btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ selectedCategoryName || 'Category' }}
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <ng-container *ngFor="let category of parentCategoryList">
+                                        <li>
+                                            <a class="dropdown-item" (click)="selectCategory(category)">{{category.categoryName}}</a>
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
