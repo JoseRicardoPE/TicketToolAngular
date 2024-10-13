@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class NewTicketService {
 
-  apiURL: string = 'https://freeapi.miniprojectideas.com/api/TicketsNew/CreateNewTicket';
+  apiURL: string = 'https://freeapi.miniprojectideas.com/api/TicketsNew/';
 
   constructor(
     private http: HttpClient
