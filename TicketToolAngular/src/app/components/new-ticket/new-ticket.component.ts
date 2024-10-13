@@ -8,6 +8,7 @@ import { DeptObj } from 'src/app/interfaces/new-dept-obj';
 import { CategoryService } from 'src/app/services/category.service';
 import { ChildcategoryService } from 'src/app/services/childcategory.service';
 import { getChildCategoryObj } from 'src/app/interfaces/child-category-obj';
+import { NewTicketService } from 'src/app/services/new-ticket.service';
 
 @Component({
   selector: 'app-new-ticket',
@@ -32,6 +33,7 @@ export class NewTicketComponent implements OnInit {
     private departmentService: DepartmentService,
     private categoryService: CategoryService,
     private childCategoryService: ChildcategoryService,
+    private newTicketService: NewTicketService
   ) {
     this.formCreateTicket = this.fb.group({
       employeeId: [0],
@@ -43,6 +45,14 @@ export class NewTicketComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const loggedUserData = localStorage.getItem('ticketUser');
+    if (loggedUserData != null) {
+      const userData = JSON.parse(loggedUserData);
+      this.formCreateTicket.patchValue({
+        employeeId: userData.employeeId,
+      });
+    }
+
     this.getAllDepartments();
     this.getAllParentCategories();
     this.getAllChildCategories();
@@ -89,6 +99,25 @@ export class NewTicketComponent implements OnInit {
     this.formCreateTicket.patchValue({ childCategoryId: childCategory.childCategoryId });
     this.selectedChildCategoryName = childCategory.categoryName;
     console.log('child category name: ', this.selectedChildCategoryName);
+  }
+
+  createTicket() {
+    debugger;
+    if (this.formCreateTicket.valid) {
+      const newTicket: CreateNewTicket = this.formCreateTicket.value;
+      console.log(newTicket);
+      this.newTicketService.createTicket(newTicket).subscribe((res: any) => {
+        debugger;
+        if (res.result) {
+          this.toastr.success('Ticket created successfully!', 'Created');
+          console.log('createTicket res: ', res);
+        } else {
+          this.toastr.error(res.message, 'Error');
+        }
+      });
+    } else {
+      this.toastr.warning('Please complete the form correctly.', 'Warning');
+    }
   }
 
 }
