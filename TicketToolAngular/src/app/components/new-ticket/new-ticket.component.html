@@ -5,7 +5,15 @@
                 <div class="card-header fw-bold fs-2 text-center">New Ticket</div>
                 <form class="card-body" [formGroup]="formCreateTicket">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-6">
+                            <div class="col-6 mb-3">
+                                <select class="form-select" aria-label="Default select example" formControlName="severity">
+                                    <option value="" selected>Severity</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
                             <div class="dropdown col-6 mb-3">
                                 <button class="btn-dropdown btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonDepartment" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ selectedDepartmentName || 'Department' }}
@@ -35,7 +43,7 @@
                                     {{ selectedChildCategoryName || 'ChildCategory' }}
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <ng-container *ngFor="let childCategory of getChildCategoryObj">
+                                    <ng-container *ngFor="let childCategory of filterCategory">
                                         <li>
                                             <a class="dropdown-item" (click)="selectChildCategory(childCategory)">{{childCategory.categoryName}}</a>
                                         </li>

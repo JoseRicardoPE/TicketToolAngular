@@ -19,8 +19,9 @@ export class NewTicketComponent implements OnInit {
   formCreateTicket!: FormGroup;
   departmentList: DeptObj[] = [];
   parentCategoryList: CategoryObj[] = [];
-  getChildCategoryObj: getChildCategoryObj[] = [];
   severityList: CreateNewTicket[] = [];
+  getChildCategoryObj: getChildCategoryObj[] = [];
+  filterCategory: any[] = [];
   selectedDepartmentName: string = '';
   selectedCategoryName: string = '';
   selectedChildCategoryName: string = '';
@@ -34,7 +35,7 @@ export class NewTicketComponent implements OnInit {
   ) {
     this.formCreateTicket = this.fb.group({
       employeeId: [0],
-      severityInput: ['', [Validators.required]],
+      severity: ['', [Validators.required]],
       childCategoryId: [0],
       deptId: [0],
       requestDetails: ['', [Validators.required]],
@@ -76,9 +77,12 @@ export class NewTicketComponent implements OnInit {
   }
 
   selectCategory(category: CategoryObj) {
-    this.formCreateTicket.patchValue({ childCategoryId: category.categoryId });
+    this.formCreateTicket.patchValue({ childCategoryId: 0 });
     this.selectedCategoryName = category.categoryName;
-    console.log('New Ticket category name: ', this.selectedCategoryName);
+    
+    this.filterCategory = this.getChildCategoryObj.filter(child => child.parentCategoryName === category.categoryName);
+
+    console.log('Child categories filter: ', this.filterCategory);
   }
 
   selectChildCategory(childCategory: getChildCategoryObj) {
