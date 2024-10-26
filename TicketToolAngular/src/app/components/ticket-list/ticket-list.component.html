@@ -1,1 +1,87 @@
-<p>ticket-list works!</p>
+<div class="row">
+    <div class="col-12 text-center">
+        <div class="btn-group">
+            <button type="button" (click)="changeMode('My Tickets')" [class]="mode === 'My Tickets' ? 'btn btn-success' : 'btn btn-primary'">My Tickets</button>
+            <button type="button" (click)="changeMode('Assigned Tickets')" [class]="mode === 'Assigned Tickets' ? 'btn btn-success' : 'btn btn-primary'">Assigned Tickets</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <ng-container *ngIf="mode === 'My Tickets';else templateAssignedTickets">
+            <div class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ticket No</th>
+                        <th>Department</th>
+                        <th>Created By</th>
+                        <th>Contact No</th>
+                        <th>Created Date</th>
+                        <th>State</th>
+                        <th>Assigned To</th>
+                        <th>Category</th>
+                        <th>Sub-Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of ticketList">
+                        <tr>
+                            <td>{{item.ticketNo}}</td>
+                            <td>{{item.deptName}}</td>
+                            <td>{{item.createdByEmployee}}</td>
+                            <td>{{item.contactNo}}</td>
+                            <td>{{item.createdDate}}</td>
+                            <td>{{item.state}}</td>
+                            <td>{{item.assignedToEmployee}}</td>
+                            <td>{{item.parentCategory}}</td>
+                            <td>{{item.childCategory}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </div>
+        </ng-container>
+        <ng-template #templateAssignedTickets>
+            <div class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ticket No</th>
+                        <th>Department</th>
+                        <th>Created By</th>
+                        <th>Contact No</th>
+                        <th>Created Date</th>
+                        <th>State</th>
+                        <th>Assigned To</th>
+                        <th>Category</th>
+                        <th>Sub-Category</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of ticketList">
+                        <tr>
+                            <td>{{item.ticketNo}}</td>
+                            <td>{{item.deptName}}</td>
+                            <td>{{item.employeeName}}</td>
+                            <td>{{item.contactNo}}</td>
+                            <td>{{item.createdDate}}</td>
+                            <td>{{item.state}}</td>
+                            <td>{{item.assignedToEmployee}}</td>
+                            <td>{{item.parentCategoryName}}</td>
+                            <td>{{item.childCategoryName}}</td>
+                            <td>
+                                <ng-container *ngIf="item.state === 'Assigned';else templateElseIf">
+                                    <button class="btn btn-success" (click)="changeStatus('Start', item.ticketId)">Start</button>
+                                </ng-container>
+                                <ng-template #templateElseIf>
+                                    <ng-container *ngIf="item.state === 'In-Progress'">
+                                        <button class="btn btn-success" (click)="changeStatus('Close', item.ticketId)">Close</button>
+                                    </ng-container>
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </div>
+        </ng-template>
+    </div>
+</div>

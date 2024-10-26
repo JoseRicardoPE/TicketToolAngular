@@ -74,7 +74,7 @@ export class NewTicketComponent implements OnInit {
   
   getAllChildCategories() {
     this.childCategoryService.getAllChildCategory().subscribe((res: any) => {
-      // debugger;
+      //debugger;
       this.getChildCategoryObj = res.data;
       console.log('child Category List from new ticket: ', this.getChildCategoryObj);
     });
@@ -102,12 +102,12 @@ export class NewTicketComponent implements OnInit {
   }
 
   createTicket() {
-    debugger;
+    //debugger;
     if (this.formCreateTicket.valid) {
       const newTicket: CreateNewTicket = this.formCreateTicket.value;
       console.log(newTicket);
       this.newTicketService.createTicket(newTicket).subscribe((res: any) => {
-        debugger;
+        //debugger;
         if (res.result) {
           this.toastr.success('Ticket created successfully!', 'Created');
           console.log('createTicket res: ', res);
